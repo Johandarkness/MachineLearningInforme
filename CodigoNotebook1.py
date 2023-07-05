@@ -1,10 +1,13 @@
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix
 from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
 from sklearn.neural_network import MLPClassifier
 import warnings
+
 
 
 #Ignorar las advertencias
@@ -52,6 +55,8 @@ for topologia in topologias:
 
 # Mostrar los resultados en una tabla
 table = pd.DataFrame(resultados, columns=['Topologia', 'Precision', 'Matriz de Confusion'])
+
+
 print("#####################################################################")
 print("\n",table,"\n")
 
@@ -98,3 +103,23 @@ else:
     print("\n","La red con la variación 1 mantiene la misma precisión que la variación 2.","\n")
 
 print("#####################################################################")
+
+# Graficar matriz de confusion
+mejor_confusion = max(resultados, key=lambda x: x[1])[2]
+plt.figure(figsize=(6, 4))
+sns.heatmap(mejor_confusion, annot=True, fmt='d', cmap='Blues', cbar=False)
+plt.xlabel('Predicted Label')
+plt.ylabel('True Label')
+plt.title('Matriz de Confusión para la mejor topología de red')
+plt.show()
+
+# Graficar la tabla de resultados
+plt.figure(figsize=(10, 6))
+plt.bar(range(len(table)), table['Precision'], tick_label=table['Topologia'])
+plt.xlabel('Topología')
+plt.ylabel('Precisión')
+plt.title('Precisión para cada topología de red')
+plt.ylim(0, 1.1)
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
