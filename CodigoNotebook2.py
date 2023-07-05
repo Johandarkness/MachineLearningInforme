@@ -55,6 +55,7 @@ for max_depth in range(5, 51, 5):
 tabla1 = pd.DataFrame(resultados_1, columns=['max_depth', 'Accuracy (criterion=gini)'])
 print("Tabla 1: Accuracy para los árboles con criterion=gini")
 print(tabla1)
+print("\n","#####################################################################","\n")
 
 # Paso 6: Configurar los hiperparámetros del árbol de decisión (criterion=entropy, splitter=best, random_state=123)
 hiperparametros2 = {
@@ -77,6 +78,7 @@ for max_depth in range(5, 51, 5):
 tabla2 = pd.DataFrame(resultados_2, columns=['max_depth', 'Accuracy (criterion=entropy)'])
 print("Tabla 2: Accuracy para los árboles con criterion=entropy")
 print(tabla2)
+print("\n","#####################################################################","\n")
 
 # Paso 8: Configurar los hiperparámetros del árbol de decisión (criterion=entropy, splitter=random, random_state=123)
 hiperparametros3 = {
@@ -99,6 +101,7 @@ for max_depth in range(5, 51, 5):
 tabla3 = pd.DataFrame(resultados_3, columns=['max_depth', 'Accuracy(splitter=random)'])
 print("Tabla 3: Accuracy para los árboles con splitter=random")
 print(tabla3)
+print("\n","#####################################################################","\n")
 
 # Encontrar los hiperparámetros que generan el árbol con mayor precisión (accuracy)
 mejor_1 = tabla1.loc[tabla1['Accuracy (criterion=gini)'].idxmax()]
@@ -109,14 +112,17 @@ mejor_3 = tabla3.loc[tabla3['Accuracy(splitter=random)'].idxmax()]
 print("Hiperparámetros con mayor precisión (criterion=gini):")
 print(mejor_1[['max_depth', 'Accuracy (criterion=gini)']])
 print()
+print("\n","#####################################################################","\n")
 
 print("Hiperparámetros con mayor precisión (criterion=entropy):")
 print(mejor_2[['max_depth', 'Accuracy (criterion=entropy)']])
 print()
+print("\n","#####################################################################","\n")
 
 print("Hiperparámetros con mayor precisión (splitter=random):")
 print(mejor_3[['max_depth', 'Accuracy(splitter=random)']])
 print()
+print("\n","#####################################################################","\n")
 
 # Paso 8: Configurar los hiperparámetros del árbol de decisión (criterion=entropy, splitter=random, random_state=123)
 hiperparametros3 = {
@@ -141,6 +147,7 @@ tabla3_1 = pd.DataFrame(resultados_3_1, columns=['max_depth', 'Accuracy(splitter
 print("Tabla 3_1: Accuracy para los árboles con splitter=random y min_samples_split=2")
 print(tabla3_1)
 print()
+print("\n","#####################################################################","\n")
 
 # Configurar el valor de min_samples_split en el caso 2
 hiperparametros3['min_samples_split'] = 10
@@ -160,7 +167,7 @@ tabla3_2 = pd.DataFrame(resultados_3_2, columns=['max_depth', 'Accuracy(splitter
 print("Tabla 3_2: Accuracy para los árboles con splitter=random y min_samples_split=10")
 print(tabla3_2)
 print()
-
+print("\n","#####################################################################","\n")
 
 # Obtener el valor máximo de precisión para cada tabla
 max_accuracy_3_1 = tabla3_1['Accuracy(splitter=random, min_samples_split=2)'].max()
