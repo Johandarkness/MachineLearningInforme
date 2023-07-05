@@ -73,16 +73,16 @@ print("\n","Activación: logistic","\n")
 print("\n","Random state: 123","\n")
 
 # Seleccionar un hiperparámetro diferente y realizar dos variaciones
-hiperparametro = 'alpha'
+hiperparametro = 'learning_rate_init'  # Cambiar alpha por learning_rate_init
 
 # Variación 1: Modificar el hiperparámetro seleccionado
-modelo_modificado_1 = MLPClassifier(hidden_layer_sizes=mejor_topologia, solver='adam', activation='logistic', random_state=123, alpha=0.01)
+modelo_modificado_1 = MLPClassifier(hidden_layer_sizes=mejor_topologia, solver='adam', activation='logistic', random_state=123, learning_rate_init=0.01)  # Cambiar alpha por learning_rate_init
 modelo_modificado_1.fit(X_train, y_train)
 y_pred_modified1 = modelo_modificado_1.predict(X_test)
 precision_modificada_1 = accuracy_score(y_test, y_pred_modified1)
 
 # Variación 2: Modificar el hiperparámetro seleccionado
-modelo_modificado_2 = MLPClassifier(hidden_layer_sizes=mejor_topologia, solver='adam', activation='logistic', random_state=123, alpha=0.001)
+modelo_modificado_2 = MLPClassifier(hidden_layer_sizes=mejor_topologia, solver='adam', activation='logistic', random_state=123, learning_rate_init=0.001)  # Cambiar alpha por learning_rate_init
 modelo_modificado_2.fit(X_train, y_train)
 y_pred_modified2 = modelo_modificado_2.predict(X_test)
 precision_modificada_2 = accuracy_score(y_test, y_pred_modified2)
@@ -103,6 +103,7 @@ else:
     print("\n","La red con la variación 1 mantiene la misma precisión que la variación 2.","\n")
 
 print("#####################################################################")
+
 
 # Graficar matriz de confusion
 mejor_confusion = max(resultados, key=lambda x: x[1])[2]

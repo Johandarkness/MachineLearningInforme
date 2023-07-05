@@ -6,6 +6,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.preprocessing import LabelEncoder
 from sklearn.impute import SimpleImputer
+from sklearn.neural_network import MLPClassifier
 import warnings
 
 # Ignorar las advertencias
@@ -55,3 +56,150 @@ tabla1 = pd.DataFrame(resultados_1, columns=['max_depth', 'Accuracy (criterion=g
 print("Tabla 1: Accuracy para los árboles con criterion=gini")
 print(tabla1)
 
+# Paso 6: Configurar los hiperparámetros del árbol de decisión (criterion=entropy, splitter=best, random_state=123)
+hiperparametros2 = {
+    'criterion': 'entropy',
+    'splitter': 'best',
+    'random_state': 123
+}
+
+resultados_2 = []
+
+for max_depth in range(5, 51, 5):
+    hiperparametros2['max_depth'] = max_depth
+    modelo = DecisionTreeClassifier(**hiperparametros2)
+    modelo.fit(X_train, y_train)
+    y_pred = modelo.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    resultados_2.append((max_depth, accuracy))
+
+# Paso 7: Mostrar una tabla con el accuracy para los 10 árboles
+tabla2 = pd.DataFrame(resultados_2, columns=['max_depth', 'Accuracy (criterion=entropy)'])
+print("Tabla 2: Accuracy para los árboles con criterion=entropy")
+print(tabla2)
+
+# Paso 8: Configurar los hiperparámetros del árbol de decisión (criterion=entropy, splitter=random, random_state=123)
+hiperparametros3 = {
+    'criterion': 'entropy',
+    'splitter': 'random',
+    'random_state': 123
+}
+
+resultados_3 = []
+
+for max_depth in range(5, 51, 5):
+    hiperparametros3['max_depth'] = max_depth
+    modelo = DecisionTreeClassifier(**hiperparametros3)
+    modelo.fit(X_train, y_train)
+    y_pred = modelo.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    resultados_3.append((max_depth, accuracy))
+
+# Paso 7: Mostrar una tabla con el accuracy para los 10 árboles
+tabla3 = pd.DataFrame(resultados_3, columns=['max_depth', 'Accuracy(splitter=random)'])
+print("Tabla 3: Accuracy para los árboles con splitter=random")
+print(tabla3)
+
+# Encontrar los hiperparámetros que generan el árbol con mayor precisión (accuracy)
+mejor_1 = tabla1.loc[tabla1['Accuracy (criterion=gini)'].idxmax()]
+mejor_2 = tabla2.loc[tabla2['Accuracy (criterion=entropy)'].idxmax()]
+mejor_3 = tabla3.loc[tabla3['Accuracy(splitter=random)'].idxmax()]
+
+# Mostrar los hiperparámetros que generan el árbol con mayor precisión
+print("Hiperparámetros con mayor precisión (criterion=gini):")
+print(mejor_1[['max_depth', 'Accuracy (criterion=gini)']])
+print()
+
+print("Hiperparámetros con mayor precisión (criterion=entropy):")
+print(mejor_2[['max_depth', 'Accuracy (criterion=entropy)']])
+print()
+
+print("Hiperparámetros con mayor precisión (splitter=random):")
+print(mejor_3[['max_depth', 'Accuracy(splitter=random)']])
+print()
+
+# Paso 8: Configurar los hiperparámetros del árbol de decisión (criterion=entropy, splitter=random, random_state=123)
+hiperparametros3 = {
+    'criterion': 'entropy',
+    'splitter': 'random',
+    'random_state': 123,
+    'min_samples_split': 2  # Cambiar el valor de min_samples_split en el caso 1
+}
+
+resultados_3_1 = []
+
+for max_depth in range(5, 51, 5):
+    hiperparametros3['max_depth'] = max_depth
+    modelo = DecisionTreeClassifier(**hiperparametros3)
+    modelo.fit(X_train, y_train)
+    y_pred = modelo.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    resultados_3_1.append((max_depth, accuracy))
+
+# Mostrar una tabla con el accuracy para los 10 árboles
+tabla3_1 = pd.DataFrame(resultados_3_1, columns=['max_depth', 'Accuracy(splitter=random, min_samples_split=2)'])
+print("Tabla 3_1: Accuracy para los árboles con splitter=random y min_samples_split=2")
+print(tabla3_1)
+print()
+
+# Configurar el valor de min_samples_split en el caso 2
+hiperparametros3['min_samples_split'] = 10
+
+resultados_3_2 = []
+
+for max_depth in range(5, 51, 5):
+    hiperparametros3['max_depth'] = max_depth
+    modelo = DecisionTreeClassifier(**hiperparametros3)
+    modelo.fit(X_train, y_train)
+    y_pred = modelo.predict(X_test)
+    accuracy = accuracy_score(y_test, y_pred)
+    resultados_3_2.append((max_depth, accuracy))
+
+# Mostrar una tabla con el accuracy para los 10 árboles
+tabla3_2 = pd.DataFrame(resultados_3_2, columns=['max_depth', 'Accuracy(splitter=random, min_samples_split=10)'])
+print("Tabla 3_2: Accuracy para los árboles con splitter=random y min_samples_split=10")
+print(tabla3_2)
+print()
+
+
+# Obtener el valor máximo de precisión para cada tabla
+max_accuracy_3_1 = tabla3_1['Accuracy(splitter=random, min_samples_split=2)'].max()
+max_accuracy_3_2 = tabla3_2['Accuracy(splitter=random, min_samples_split=10)'].max()
+
+
+
+# Determinar cuál tabla tiene el mejor accuracy
+if max_accuracy_3_1 > max_accuracy_3_2:
+    mejor_tabla = 'Tabla 3_1: Accuracy con splitter=random y min_samples_split=2'
+    mejor_accuracy = max_accuracy_3_1
+else:
+    mejor_tabla = 'Tabla 3_2: Accuracy con splitter=random y min_samples_split=10'
+    mejor_accuracy = max_accuracy_3_2
+
+
+print("\n","#####################################################################","\n")
+# Mostrar el resultado del mejor accuracy
+print("El árbol de decisión modificado con el mejor accuracy se encuentra en:")
+print(mejor_tabla)
+print("El mejor accuracy obtenido es:", mejor_accuracy)
+
+max_accuracy_1 = tabla1['Accuracy (criterion=gini)'].max()
+max_accuracy_2 = tabla2['Accuracy (criterion=entropy)'].max()
+max_accuracy_3 = tabla3['Accuracy(splitter=random)'].max()
+
+# Determinar cuál tabla tiene el mejor accuracy
+if max_accuracy_1 > max_accuracy_2 and max_accuracy_1 > max_accuracy_3:
+    mejor_tabla = 'Tabla 1: Accuracy con criterion=gini'
+    mejor_accuracy = max_accuracy_1
+elif max_accuracy_2 > max_accuracy_1 and max_accuracy_2 > max_accuracy_3:
+    mejor_tabla = 'Tabla 2: Accuracy con criterion=entropy'
+    mejor_accuracy = max_accuracy_2
+else:
+    mejor_tabla = 'Tabla 3: Accuracy con splitter=random'
+    mejor_accuracy = max_accuracy_3
+print("\n","#####################################################################","\n")
+# Mostrar el resultado del mejor accuracy
+print("El árbol de decisión con el mejor accuracy se encuentra en:")
+print(mejor_tabla)
+print("El mejor accuracy obtenido es:", mejor_accuracy)
+print("\n","#####################################################################","\n")
