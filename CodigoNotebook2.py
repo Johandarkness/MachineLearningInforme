@@ -210,3 +210,20 @@ print("El árbol de decisión con el mejor accuracy se encuentra en:")
 print(mejor_tabla)
 print("El mejor accuracy obtenido es:", mejor_accuracy)
 print("\n","#####################################################################","\n")
+
+
+plt.figure(figsize=(10, 6))
+plt.plot(tabla1['max_depth'], tabla1['Accuracy (criterion=gini)'], label='criterion=gini')
+plt.plot(tabla2['max_depth'], tabla2['Accuracy (criterion=entropy)'], label='criterion=entropy')
+plt.plot(tabla3['max_depth'], tabla3['Accuracy(splitter=random)'], label='splitter=random')
+
+plt.plot(tabla3_1['max_depth'], tabla3_1['Accuracy(splitter=random, min_samples_split=2)'], label='Modificado 1 Samples = 2')
+plt.plot(tabla3_2['max_depth'], tabla3_2['Accuracy(splitter=random, min_samples_split=10)'], label='Modificado 2 Samples = 10')
+
+
+plt.xlabel('Profundidad máxima')
+plt.ylabel('Precisión')
+plt.title('Precisión para diferentes configuraciones de árboles de decisión')
+plt.legend()
+plt.grid(True)
+plt.show()
