@@ -227,3 +227,4 @@ plt.title('Precisión para diferentes configuraciones de árboles de decisión')
 plt.legend()
 plt.grid(True)
 plt.show()
+
