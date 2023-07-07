@@ -9,6 +9,10 @@ from sklearn.neural_network import MLPClassifier
 import warnings
 
 
+#Integrantes:
+#Johan Loaiza Téllez 204082
+#Juan Pablo Pantoja 2040104
+
 
 #Ignorar las advertencias
 warnings.filterwarnings("ignore")
